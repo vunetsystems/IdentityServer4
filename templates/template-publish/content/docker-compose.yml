@@ -14,9 +14,9 @@ services:
       proxy: null
       identityserverui:
         aliases:
-          - sts.skoruba.local
-          - admin.skoruba.local
-          - admin-api.skoruba.local
+          - id.s2.vunet.io
+          - ida.s2.vunet.io
+          - idapi.s2.vunet.io
     restart: always
   skorubaidentityserver4admin.admin:
     image: '${DOCKER_REGISTRY-}skoruba-identityserver4-admin'
@@ -25,23 +25,23 @@ services:
       dockerfile: src/SkorubaIdentityServer4Admin.Admin/Dockerfile
     container_name: skoruba-identityserver4-admin
     environment:
-      - VIRTUAL_HOST=admin.skoruba.local
+      - VIRTUAL_HOST=ida.s2.vunet.io
       - 'ConnectionStrings__ConfigurationDbConnection=Server=db;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
       - 'ConnectionStrings__PersistedGrantDbConnection=Server=db;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
       - 'ConnectionStrings__IdentityDbConnection=Server=db;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
       - 'ConnectionStrings__AdminLogDbConnection=Server=db;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
       - 'ConnectionStrings__AdminAuditLogDbConnection=Server=db;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
       - 'ConnectionStrings__DataProtectionDbConnection=Server=db;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
-      - 'AdminConfiguration__IdentityAdminBaseUrl=https://admin.skoruba.local'
-      - 'AdminConfiguration__IdentityAdminRedirectUri=https://admin.skoruba.local/signin-oidc'
-      - 'AdminConfiguration__IdentityServerBaseUrl=https://sts.skoruba.local'
+      - 'AdminConfiguration__IdentityAdminBaseUrl=https://ida.s2.vunet.io'
+      - 'AdminConfiguration__IdentityAdminRedirectUri=https://ida.s2.vunet.io/signin-oidc'
+      - 'AdminConfiguration__IdentityServerBaseUrl=https://id.s2.vunet.io'
       - AdminConfiguration__RequireHttpsMetadata=false
-      - 'IdentityServerData__Clients__0__ClientUri=https://admin.skoruba.local'
-      - 'IdentityServerData__Clients__0__RedirectUris__0=https://admin.skoruba.local/signin-oidc'
-      - 'IdentityServerData__Clients__0__FrontChannelLogoutUri=https://admin.skoruba.local/signin-oidc'
-      - 'IdentityServerData__Clients__0__PostLogoutRedirectUris__0=https://admin.skoruba.local/signout-callback-oidc'
-      - 'IdentityServerData__Clients__0__AllowedCorsOrigins__0=https://admin.skoruba.local'
-      - 'IdentityServerData__Clients__1__RedirectUris__0=https://admin-api.skoruba.local/swagger/oauth2-redirect.html'
+      - 'IdentityServerData__Clients__0__ClientUri=https://ida.s2.vunet.io'
+      - 'IdentityServerData__Clients__0__RedirectUris__0=https://ida.s2.vunet.io/signin-oidc'
+      - 'IdentityServerData__Clients__0__FrontChannelLogoutUri=https://ida.s2.vunet.io/signin-oidc'
+      - 'IdentityServerData__Clients__0__PostLogoutRedirectUris__0=https://ida.s2.vunet.io/signout-callback-oidc'
+      - 'IdentityServerData__Clients__0__AllowedCorsOrigins__0=https://ida.s2.vunet.io'
+      - 'IdentityServerData__Clients__1__RedirectUris__0=https://idapi.s2.vunet.io/swagger/oauth2-redirect.html'
       - 'Serilog__WriteTo__1__Args__connectionString=Server=db;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
       - DockerConfiguration__UpdateCaCertificate=true
       - ASPNETCORE_ENVIRONMENT=Development
@@ -63,10 +63,10 @@ services:
       dockerfile: src/SkorubaIdentityServer4Admin.Admin.Api/Dockerfile
     container_name: skoruba-identityserver4-admin-api
     environment:
-      - VIRTUAL_HOST=admin-api.skoruba.local
+      - VIRTUAL_HOST=idapi.s2.vunet.io
       - AdminApiConfiguration__RequireHttpsMetadata=false
-      - 'AdminApiConfiguration__ApiBaseUrl=https://admin-api.skoruba.local'
-      - 'AdminApiConfiguration__IdentityServerBaseUrl=https://sts.skoruba.local'
+      - 'AdminApiConfiguration__ApiBaseUrl=https://idapi.s2.vunet.io'
+      - 'AdminApiConfiguration__IdentityServerBaseUrl=https://id.s2.vunet.io'
       - 'ConnectionStrings__ConfigurationDbConnection=Server=db;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
       - 'ConnectionStrings__PersistedGrantDbConnection=Server=db;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
       - 'ConnectionStrings__IdentityDbConnection=Server=db;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
@@ -87,13 +87,13 @@ services:
       dockerfile: src/SkorubaIdentityServer4Admin.STS.Identity/Dockerfile
     container_name: skoruba-identityserver4-sts-identity
     environment:
-      - VIRTUAL_HOST=sts.skoruba.local
+      - VIRTUAL_HOST=id.s2.vunet.io
       - 'ConnectionStrings__ConfigurationDbConnection=Server=db;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
       - 'ConnectionStrings__PersistedGrantDbConnection=Server=db;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
       - 'ConnectionStrings__IdentityDbConnection=Server=db;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
       - 'ConnectionStrings__DataProtectionDbConnection=Server=db;Database=IdentityServer4Admin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true'
-      - 'AdminConfiguration__IdentityAdminBaseUrl=https://admin.skoruba.local'
-      - 'IdentityServerOptions__IssuerUri=https://sts.skoruba.local'
+      - 'AdminConfiguration__IdentityAdminBaseUrl=https://ida.s2.vunet.io'
+      - 'IdentityServerOptions__IssuerUri=https://id.s2.vunet.io'
       - IdentityServerOptions__Events__RaiseErrorEvents=true
       - IdentityServerOptions__Events__RaiseInformationEvents=true
       - IdentityServerOptions__Events__RaiseFailureEvents=true
@@ -108,7 +108,7 @@ services:
     networks:
       identityserverui:
         aliases:
-          - sts.skoruba.local
+          - id.s2.vunet.io
   db:
     image: 'mcr.microsoft.com/mssql/server:2017-CU20-ubuntu-16.04'
     ports:

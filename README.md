@@ -117,7 +117,7 @@ Edit your hosts file:
  and add the following entries:
 
 ```custom
-127.0.0.1 skoruba.local sts.skoruba.local admin.skoruba.local admin-api.skoruba.local
+127.0.0.1 skoruba.local id.s2.vunet.io ida.s2.vunet.io idapi.s2.vunet.io
 ```
 
 This way your host machine resolves `skoruba.local` and its subdomains to itself.
@@ -148,8 +148,8 @@ Generate a certificate for `skoruba.local` with wildcards for the subdomains. Th
 
 ```bash
 cd shared/nginx/certs
-mkcert -cert-file skoruba.local.crt -key-file skoruba.local.key skoruba.local *.skoruba.local
-mkcert -pkcs12 skoruba.local.pfx skoruba.local *.skoruba.local
+mkcert -cert-file skoruba.local.crt -key-file skoruba.local.key skoruba.local *.s2.vunet.io
+mkcert -pkcs12 skoruba.local.pfx skoruba.local *.s2.vunet.io
 ```
 
 ##### This docker setup is come from this [repository](https://github.com/bravecobra/identityserver-ui) - thanks to [bravecobra](https://github.com/bravecobra). 😊

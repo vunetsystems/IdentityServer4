@@ -84,7 +84,7 @@
             {
                 "ClientId": "skoruba_identity_admin",
                 "ClientName": "skoruba_identity_admin",
-                "ClientUri": "https://admin.skoruba.local",
+                "ClientUri": "https://ida.s2.vunet.io",
                 "AllowedGrantTypes": [
                     "authorization_code"
                 ],
@@ -95,14 +95,14 @@
                     }
                 ],
                 "RedirectUris": [
-                    "https://admin.skoruba.local/signin-oidc"
+                    "https://ida.s2.vunet.io/signin-oidc"
                 ],
-                "FrontChannelLogoutUri": "https://admin.skoruba.local/signout-oidc",
+                "FrontChannelLogoutUri": "https://ida.s2.vunet.io/signout-oidc",
                 "PostLogoutRedirectUris": [
-                    "https://admin.skoruba.local/signout-callback-oidc"
+                    "https://ida.s2.vunet.io/signout-callback-oidc"
                 ],
                 "AllowedCorsOrigins": [
-                    "https://admin.skoruba.local"
+                    "https://ida.s2.vunet.io"
                 ],
                 "AllowedScopes": [
                     "openid",
@@ -120,13 +120,13 @@
                 "RequireClientSecret": false,
                 "RequirePkce": true,
                 "RedirectUris": [
-                    "https://admin-api.skoruba.local/swagger/oauth2-redirect.html"
+                    "https://idapi.s2.vunet.io/swagger/oauth2-redirect.html"
                 ],
                 "AllowedScopes": [
                     "skoruba_identity_admin_api"
                 ],
                 "AllowedCorsOrigins": [
-                    "https://admin-api.skoruba.local"
+                    "https://idapi.s2.vunet.io"
                 ]
             }
         ]
