@@ -1,23 +1,5 @@
 version: '3.4'
 services:
-  nginx-proxy:
-    image: jwilder/nginx-proxy
-    container_name: nginx
-    ports:
-      - '80:80'
-      - '443:443'
-    volumes:
-      - '/var/run/docker.sock:/tmp/docker.sock:ro'
-      - './shared/nginx/vhost.d:/etc/nginx/vhost.d'
-      - './shared/nginx/certs:/etc/nginx/certs:ro'
-    networks:
-      proxy: null
-      identityserverui:
-        aliases:
-          - id.s2.vunet.io
-          - ida.s2.vunet.io
-          - idapi.s2.vunet.io
-    restart: always
   skoruba.identityserver4.admin:
     image: '${DOCKER_REGISTRY-}skoruba-identityserver4-admin'
     build:
@@ -54,8 +36,11 @@ services:
       - './shared/identitydata.json:/app/identitydata.json'
       - './shared/identityserverdata.json:/app/identityserverdata.json'
       - './shared/nginx/certs/cacerts.crt:/usr/local/share/ca-certificates/cacerts.crt'
-    networks:
-      identityserverui: null
+    labels:
+      traefik.enable: true
+      traefik.http.routers.ida.entrypoints: websecure
+      traefik.http.routers.ida.rule: Host(`ida.pilot.vunet.io`)
+      traefik.http.services.ida.loadbalancer.server.port: 80
   skoruba.identityserver4.admin.api:
     image: '${DOCKER_REGISTRY-}skoruba-identityserver4-admin-api'
     build:
@@ -78,8 +63,12 @@ services:
     volumes:
       - './shared/serilog.json:/app/serilog.json'
       - './shared/nginx/certs/cacerts.crt:/usr/local/share/ca-certificates/cacerts.crt'
-    networks:
-      identityserverui: null
+
+    labels:
+      traefik.enable: true
+      traefik.http.routers.idapi.entrypoints: websecure
+      traefik.http.routers.idapi.rule: Host(`idapi.pilot.vunet.io`)
+      traefik.http.services.idapi.loadbalancer.server.port: 80
   skoruba.identityserver4.sts.identity:
     image: '${DOCKER_REGISTRY-}skoruba-identityserver4-sts-identity'
     build:
@@ -105,10 +94,11 @@ services:
     volumes:
       - './shared/serilog.json:/app/serilog.json'
       - './shared/nginx/certs/cacerts.crt:/usr/local/share/ca-certificates/cacerts.crt'
-    networks:
-      identityserverui:
-        aliases:
-          - id.s2.vunet.io
+    labels:
+      traefik.enable: true
+      traefik.http.routers.id.entrypoints: websecure
+      traefik.http.routers.id.rule: Host(`id.pilot.vunet.io`)
+      traefik.http.services.id.loadbalancer.server.port: 80
   db:
     image: 'mcr.microsoft.com/mssql/server:2017-CU20-ubuntu-16.04'
     ports:
@@ -119,13 +109,6 @@ services:
       ACCEPT_EULA: 'Y'
     volumes:
       - 'dbdata:/var/opt/mssql'
-    networks:
-      identityserverui: null
 volumes:
   dbdata:
     driver: local
-networks:
-  proxy:
-    driver: bridge
-  identityserverui:
-    driver: bridge
